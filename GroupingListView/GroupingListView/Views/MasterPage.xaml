@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  x:Class="GroupingListView.Views.MasterPage"
+                  x:Name="MasterMenuPage">
+
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu">
+            <StackLayout Padding="20">
+
+                <!--É preciso habilitar como 'TRUE' no listview a propriedade IsGroupingEnabled, para poder ativar o agrupamento -->
+                <ListView
+                        x:Name="listViewMenu"
+                        HasUnevenRows="True"
+                        SeparatorVisibility="Default"
+                        ItemsSource="{Binding ListaMenu, Mode=TwoWay}"
+                        IsGroupingEnabled="True">
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Margin="5" FontAttributes="Bold" TextColor="DarkBlue" HorizontalOptions="Center" FontSize="16" Text="{Binding Titulo}" />
+                                    <BoxView BackgroundColor="DarkBlue" HeightRequest="1"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid Margin="15,10,0,0" x:Name="item">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image
+                                            WidthRequest="30"
+                                            HeightRequest="30"
+                                            VerticalOptions="Start"
+                                            HorizontalOptions="Start"
+                                            Grid.Row="0" 
+                                            Grid.Column="0"
+                                            Source="{Binding Logo}">
+                                        </Image>
+
+
+                                        <Label FontAttributes="Bold" Margin="20,0,0,0" TextColor="DarkBlue" Grid.Row="0" VerticalOptions="Center" Grid.Column="2" Text="{Binding Descricao}"/>
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.NavigateCommand, Source={x:Reference MasterMenuPage}}" CommandParameter="{Binding Source={x:Reference item}, Path=BindingContext}"/>
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+
+</MasterDetailPage>
